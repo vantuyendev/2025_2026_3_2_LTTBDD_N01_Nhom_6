@@ -115,4 +115,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get english => 'English';
+
+  @override
+  String get groupInfoTitle => 'Group Information';
+
+  @override
+  String get groupName => 'Group 06 - Class N01';
+
+  @override
+  String get courseName => 'Mobile Device Programming';
+
+  @override
+  String get teamMembers => 'Team Members';
+
+  @override
+  String get leader => 'Team Leader';
+
+  @override
+  String get member => 'Member';
+
+  @override
+  String get widgetShowcase => 'Project Widget Inventory';
+
+  @override
+  String get projectStats => 'Project Statistics';
+
+  @override
+  String get widgetPlayground => 'Widget Playground';
+
+  @override
+  String get techStack => 'Tech Stack';
 }

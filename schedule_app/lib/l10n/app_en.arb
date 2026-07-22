@@ -54,5 +54,15 @@
   "undo": "Undo",
   "selectLanguage": "Select language",
   "vietnamese": "Vietnamese",
-  "english": "English"
+  "english": "English",
+  "groupInfoTitle": "Group Information",
+  "groupName": "Group 06 - Class N01",
+  "courseName": "Mobile Device Programming",
+  "teamMembers": "Team Members",
+  "leader": "Team Leader",
+  "member": "Member",
+  "widgetShowcase": "Project Widget Inventory",
+  "projectStats": "Project Statistics",
+  "widgetPlayground": "Widget Playground",
+  "techStack": "Tech Stack"
 }

@@ -5,6 +5,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../core/widgets/language_selector_button.dart';
 import '../widgets/event_card.dart';
 import '../../task_management/screens/add_event_screen.dart';
+import '../../group_info/screens/group_info_screen.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -274,12 +275,97 @@ class _CalendarScreenState extends State<CalendarScreen> {
       appBar: AppBar(
         title: Text(l10n.personalCalendar),
         centerTitle: true,
-        actions: const [
-          Padding(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.group_rounded),
+            tooltip: l10n.groupInfoTitle,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const GroupInfoScreen(),
+                ),
+              );
+            },
+          ),
+          const Padding(
             padding: EdgeInsets.only(right: 8.0),
             child: LanguageSelectorButton(),
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            UserAccountsDrawerHeader(
+              decoration: const BoxDecoration(
+                color: Color(0xFF1A237E), // Deep Indigo / Navy
+              ),
+              accountName: const Text(
+                'NHÓM 06 - LỚP N01',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+              ),
+              accountEmail: const Text(
+                'Lập Trình Thiết Bị Di Động',
+                style: TextStyle(color: Colors.white70, fontSize: 13),
+              ),
+              currentAccountPicture: const CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(Icons.groups_rounded, size: 36, color: Color(0xFF1A237E)),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.calendar_month_rounded, color: Color(0xFF1A237E)),
+              title: Text(l10n.personalCalendar),
+              selected: true,
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.people_alt_rounded, color: Color(0xFF1A237E)),
+              title: Text(l10n.groupInfoTitle),
+              subtitle: const Text('24100462 - Tuyên & 24100350 - Vinh'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const GroupInfoScreen(),
+                  ),
+                );
+              },
+            ),
+            const Divider(),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Text(
+                'Thống Kê & Widget',
+                style: TextStyle(fontSize: 12, color: Colors.grey, fontWeight: FontWeight.bold),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.widgets_outlined, color: Color(0xFF1A237E)),
+              title: const Text('Danh Sách Widget Đồ Án'),
+              subtitle: const Text('Tổng hợp 30 Widgets Flutter'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const GroupInfoScreen(),
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.info_outline_rounded, color: Colors.grey),
+              title: const Text('Phiên Bản Ứng Dụng'),
+              subtitle: const Text('v1.0.0+1 (Schedule App)'),
+            ),
+          ],
+        ),
       ),
       body: Column(
         children: [

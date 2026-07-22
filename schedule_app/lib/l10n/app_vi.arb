@@ -54,5 +54,15 @@
   "undo": "Hoàn tác",
   "selectLanguage": "Chọn ngôn ngữ",
   "vietnamese": "Tiếng Việt",
-  "english": "English"
+  "english": "English",
+  "groupInfoTitle": "Thông Tin Nhóm",
+  "groupName": "Nhóm 06 - Lớp N01",
+  "courseName": "Lập Trình Thiết Bị Di Động",
+  "teamMembers": "Thành Viên Nhóm",
+  "leader": "Trưởng Nhóm",
+  "member": "Thành Viên",
+  "widgetShowcase": "Danh Sách Widget Đồ Án",
+  "projectStats": "Thống Kê Đồ Án",
+  "widgetPlayground": "Widget Playground",
+  "techStack": "Công Nghệ Sử Dụng"
 }

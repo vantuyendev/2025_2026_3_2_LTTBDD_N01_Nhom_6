@@ -115,4 +115,34 @@ class AppLocalizationsVi extends AppLocalizations {
 
   @override
   String get english => 'English';
+
+  @override
+  String get groupInfoTitle => 'Thông Tin Nhóm';
+
+  @override
+  String get groupName => 'Nhóm 06 - Lớp N01';
+
+  @override
+  String get courseName => 'Lập Trình Thiết Bị Di Động';
+
+  @override
+  String get teamMembers => 'Thành Viên Nhóm';
+
+  @override
+  String get leader => 'Trưởng Nhóm';
+
+  @override
+  String get member => 'Thành Viên';
+
+  @override
+  String get widgetShowcase => 'Danh Sách Widget Đồ Án';
+
+  @override
+  String get projectStats => 'Thống Kê Đồ Án';
+
+  @override
+  String get widgetPlayground => 'Widget Playground';
+
+  @override
+  String get techStack => 'Công Nghệ Sử Dụng';
 }

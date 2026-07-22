@@ -301,6 +301,66 @@ abstract class AppLocalizations {
   /// In vi, this message translates to:
   /// **'English'**
   String get english;
+
+  /// No description provided for @groupInfoTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thông Tin Nhóm'**
+  String get groupInfoTitle;
+
+  /// No description provided for @groupName.
+  ///
+  /// In vi, this message translates to:
+  /// **'Nhóm 06 - Lớp N01'**
+  String get groupName;
+
+  /// No description provided for @courseName.
+  ///
+  /// In vi, this message translates to:
+  /// **'Lập Trình Thiết Bị Di Động'**
+  String get courseName;
+
+  /// No description provided for @teamMembers.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thành Viên Nhóm'**
+  String get teamMembers;
+
+  /// No description provided for @leader.
+  ///
+  /// In vi, this message translates to:
+  /// **'Trưởng Nhóm'**
+  String get leader;
+
+  /// No description provided for @member.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thành Viên'**
+  String get member;
+
+  /// No description provided for @widgetShowcase.
+  ///
+  /// In vi, this message translates to:
+  /// **'Danh Sách Widget Đồ Án'**
+  String get widgetShowcase;
+
+  /// No description provided for @projectStats.
+  ///
+  /// In vi, this message translates to:
+  /// **'Thống Kê Đồ Án'**
+  String get projectStats;
+
+  /// No description provided for @widgetPlayground.
+  ///
+  /// In vi, this message translates to:
+  /// **'Widget Playground'**
+  String get widgetPlayground;
+
+  /// No description provided for @techStack.
+  ///
+  /// In vi, this message translates to:
+  /// **'Công Nghệ Sử Dụng'**
+  String get techStack;
 }
 
 class _AppLocalizationsDelegate
