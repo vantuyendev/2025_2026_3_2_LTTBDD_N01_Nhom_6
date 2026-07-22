@@ -218,6 +218,72 @@ abstract class AppLocalizations {
   /// **'Lưu sự kiện'**
   String get saveEvent;
 
+  /// No description provided for @editEvent.
+  ///
+  /// In vi, this message translates to:
+  /// **'Chỉnh Sửa Sự Kiện'**
+  String get editEvent;
+
+  /// No description provided for @updateEvent.
+  ///
+  /// In vi, this message translates to:
+  /// **'Cập nhật sự kiện'**
+  String get updateEvent;
+
+  /// No description provided for @deleteEvent.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xóa sự kiện'**
+  String get deleteEvent;
+
+  /// No description provided for @deleteConfirmTitle.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xác nhận xóa'**
+  String get deleteConfirmTitle;
+
+  /// No description provided for @deleteConfirmMessage.
+  ///
+  /// In vi, this message translates to:
+  /// **'Bạn có chắc chắn muốn xóa sự kiện \"{title}\" không?'**
+  String deleteConfirmMessage(String title);
+
+  /// No description provided for @cancel.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hủy'**
+  String get cancel;
+
+  /// No description provided for @delete.
+  ///
+  /// In vi, this message translates to:
+  /// **'Xóa'**
+  String get delete;
+
+  /// No description provided for @edit.
+  ///
+  /// In vi, this message translates to:
+  /// **'Sửa'**
+  String get edit;
+
+  /// No description provided for @eventUpdated.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã cập nhật sự kiện'**
+  String get eventUpdated;
+
+  /// No description provided for @eventDeleted.
+  ///
+  /// In vi, this message translates to:
+  /// **'Đã xóa sự kiện'**
+  String get eventDeleted;
+
+  /// No description provided for @undo.
+  ///
+  /// In vi, this message translates to:
+  /// **'Hoàn tác'**
+  String get undo;
+
   /// No description provided for @selectLanguage.
   ///
   /// In vi, this message translates to:

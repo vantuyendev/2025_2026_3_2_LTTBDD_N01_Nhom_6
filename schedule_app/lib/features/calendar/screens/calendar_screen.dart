@@ -19,41 +19,58 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime? _selectedDay;
 
   // Dữ liệu mẫu (Demo Events)
-  final Map<DateTime, List<Map<String, dynamic>>> _demoEvents = {
-    DateTime.utc(DateTime.now().year, DateTime.now().month, DateTime.now().day): [
-      {
-        'title': 'Họp Nhóm Đồ Án LTTBDD',
-        'timeRange': '08:30 - 10:00',
-        'note': 'Báo cáo tiến độ Bước 5 và rà soát code TableCalendar',
-        'isDone': false,
-        'color': Colors.blue,
-      },
-      {
-        'title': 'Nộp Báo Cáo Tiến Độ',
-        'timeRange': '11:30 - 12:00',
-        'note': 'Cập nhật BAO_CAO_DO_AN.md Chương 3 & 4',
-        'isDone': true,
-        'color': Colors.orange,
-      },
-      {
-        'title': 'Review Code UI/UX',
-        'timeRange': '14:00 - 15:30',
-        'note': 'Kiểm tra giao diện EventCard trên thiết bị thực',
-        'isDone': false,
-        'color': Colors.purple,
-      },
-    ],
-  };
-
-  List<Map<String, dynamic>> _getEventsForDay(DateTime day) {
-    final normalizedDay = DateTime.utc(day.year, day.month, day.day);
-    return _demoEvents[normalizedDay] ?? [];
-  }
+  late final Map<DateTime, List<Map<String, dynamic>>> _demoEvents;
 
   @override
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
+
+    final today = DateTime.now();
+    final todayNormalized = DateTime.utc(today.year, today.month, today.day);
+
+    _demoEvents = {
+      todayNormalized: [
+        {
+          'id': '1',
+          'title': 'Họp Nhóm Đồ Án LTTBDD',
+          'timeRange': '08:30 - 10:00',
+          'note': 'Báo cáo tiến độ Bước 5 và rà soát code TableCalendar',
+          'isDone': false,
+          'color': Colors.blue,
+          'startDate': DateTime(today.year, today.month, today.day, 8, 30),
+          'endDate': DateTime(today.year, today.month, today.day, 10, 0),
+          'isReminded': true,
+        },
+        {
+          'id': '2',
+          'title': 'Nộp Báo Cáo Tiến Độ',
+          'timeRange': '11:30 - 12:00',
+          'note': 'Cập nhật BAO_CAO_DO_AN.md Chương 3 & 4',
+          'isDone': true,
+          'color': Colors.orange,
+          'startDate': DateTime(today.year, today.month, today.day, 11, 30),
+          'endDate': DateTime(today.year, today.month, today.day, 12, 0),
+          'isReminded': true,
+        },
+        {
+          'id': '3',
+          'title': 'Review Code UI/UX',
+          'timeRange': '14:00 - 15:30',
+          'note': 'Kiểm tra giao diện EventCard trên thiết bị thực',
+          'isDone': false,
+          'color': Colors.purple,
+          'startDate': DateTime(today.year, today.month, today.day, 14, 0),
+          'endDate': DateTime(today.year, today.month, today.day, 15, 30),
+          'isReminded': false,
+        },
+      ],
+    };
+  }
+
+  List<Map<String, dynamic>> _getEventsForDay(DateTime day) {
+    final normalizedDay = DateTime.utc(day.year, day.month, day.day);
+    return _demoEvents[normalizedDay] ?? [];
   }
 
   Future<void> _openAddEventScreen() async {
@@ -80,11 +97,15 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
       setState(() {
         final newEvent = {
+          'id': DateTime.now().millisecondsSinceEpoch.toString(),
           'title': result['title'],
           'timeRange': '$startTimeStr - $endTimeStr',
           'note': result['note'],
           'isDone': false,
           'color': Colors.teal,
+          'startDate': startDate,
+          'endDate': endDate,
+          'isReminded': result['isReminded'] ?? true,
         };
 
         if (_demoEvents.containsKey(normalizedDay)) {
@@ -94,6 +115,149 @@ class _CalendarScreenState extends State<CalendarScreen> {
         }
       });
     }
+  }
+
+  Future<void> _openEditEventScreen(
+    DateTime currentDay,
+    int index,
+    Map<String, dynamic> event,
+  ) async {
+    final startDate = event['startDate'] as DateTime? ?? currentDay;
+    final endDate = event['endDate'] as DateTime? ?? currentDay.add(const Duration(hours: 1));
+
+    final startTime = TimeOfDay(hour: startDate.hour, minute: startDate.minute);
+    final endTime = TimeOfDay(hour: endDate.hour, minute: endDate.minute);
+
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddEventScreen(
+          initialSelectedDate: startDate,
+          initialTitle: event['title'],
+          initialNote: event['note'],
+          initialStartTime: startTime,
+          initialEndTime: endTime,
+          initialIsReminded: event['isReminded'] ?? true,
+          isEditing: true,
+        ),
+      ),
+    );
+
+    if (result != null && result is Map<String, dynamic>) {
+      final newStartDate = result['startDate'] as DateTime;
+      final newEndDate = result['endDate'] as DateTime;
+
+      final oldNormalizedDay = DateTime.utc(currentDay.year, currentDay.month, currentDay.day);
+      final newNormalizedDay = DateTime.utc(newStartDate.year, newStartDate.month, newStartDate.day);
+
+      final startTimeStr = DateFormat('HH:mm').format(newStartDate);
+      final endTimeStr = DateFormat('HH:mm').format(newEndDate);
+
+      final updatedEvent = {
+        ...event,
+        'title': result['title'],
+        'timeRange': '$startTimeStr - $endTimeStr',
+        'note': result['note'],
+        'startDate': newStartDate,
+        'endDate': newEndDate,
+        'isReminded': result['isReminded'] ?? true,
+      };
+
+      setState(() {
+        if (oldNormalizedDay == newNormalizedDay) {
+          _demoEvents[oldNormalizedDay]![index] = updatedEvent;
+        } else {
+          if (_demoEvents.containsKey(oldNormalizedDay)) {
+            _demoEvents[oldNormalizedDay]!.removeAt(index);
+          }
+          if (_demoEvents.containsKey(newNormalizedDay)) {
+            _demoEvents[newNormalizedDay]!.add(updatedEvent);
+          } else {
+            _demoEvents[newNormalizedDay] = [updatedEvent];
+          }
+          _selectedDay = newStartDate;
+          _focusedDay = newStartDate;
+        }
+      });
+
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.eventUpdated),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _deleteEvent(
+    DateTime currentDay,
+    int index,
+    Map<String, dynamic> event,
+  ) async {
+    final l10n = AppLocalizations.of(context)!;
+    final normalizedDay = DateTime.utc(currentDay.year, currentDay.month, currentDay.day);
+
+    final confirm = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.deleteConfirmTitle),
+        content: Text(l10n.deleteConfirmMessage(event['title'] ?? '')),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.0)),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: Text(l10n.cancel),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.red,
+              foregroundColor: Colors.white,
+            ),
+            onPressed: () => Navigator.pop(context, true),
+            child: Text(l10n.delete),
+          ),
+        ],
+      ),
+    );
+
+    if (confirm == true) {
+      setState(() {
+        _demoEvents[normalizedDay]!.removeAt(index);
+      });
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.eventDeleted),
+            duration: const Duration(seconds: 4),
+            action: SnackBarAction(
+              label: l10n.undo,
+              onPressed: () {
+                setState(() {
+                  if (_demoEvents.containsKey(normalizedDay)) {
+                    _demoEvents[normalizedDay]!.insert(index, event);
+                  } else {
+                    _demoEvents[normalizedDay] = [event];
+                  }
+                });
+              },
+            ),
+          ),
+        );
+      }
+    }
+  }
+
+  void _toggleDone(DateTime currentDay, int index) {
+    final normalizedDay = DateTime.utc(currentDay.year, currentDay.month, currentDay.day);
+    setState(() {
+      final currentStatus = _demoEvents[normalizedDay]![index]['isDone'] as bool? ?? false;
+      _demoEvents[normalizedDay]![index]['isDone'] = !currentStatus;
+    });
   }
 
   @override
@@ -243,13 +407,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     itemCount: selectedDayEvents.length,
                     itemBuilder: (context, index) {
                       final event = selectedDayEvents[index];
+                      final targetDay = _selectedDay!;
                       return EventCard(
                         title: event['title'],
                         timeRange: event['timeRange'],
                         note: event['note'],
-                        isDone: event['isDone'],
-                        indicatorColor: event['color'],
-                        onTap: () {},
+                        isDone: event['isDone'] ?? false,
+                        indicatorColor: event['color'] ?? Colors.blue,
+                        onToggleDone: () => _toggleDone(targetDay, index),
+                        onEdit: () => _openEditEventScreen(targetDay, index, event),
+                        onDelete: () => _deleteEvent(targetDay, index, event),
                       );
                     },
                   ),

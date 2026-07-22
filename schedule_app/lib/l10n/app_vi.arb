@@ -34,6 +34,24 @@
   "reminderNotification": "Thông báo nhắc hẹn",
   "reminderSubtitle": "Nhận thông báo khi đến giờ sự kiện",
   "saveEvent": "Lưu sự kiện",
+  "editEvent": "Chỉnh Sửa Sự Kiện",
+  "updateEvent": "Cập nhật sự kiện",
+  "deleteEvent": "Xóa sự kiện",
+  "deleteConfirmTitle": "Xác nhận xóa",
+  "deleteConfirmMessage": "Bạn có chắc chắn muốn xóa sự kiện \"{title}\" không?",
+  "@deleteConfirmMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Hủy",
+  "delete": "Xóa",
+  "edit": "Sửa",
+  "eventUpdated": "Đã cập nhật sự kiện",
+  "eventDeleted": "Đã xóa sự kiện",
+  "undo": "Hoàn tác",
   "selectLanguage": "Chọn ngôn ngữ",
   "vietnamese": "Tiếng Việt",
   "english": "English"

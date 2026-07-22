@@ -34,6 +34,24 @@
   "reminderNotification": "Reminder Notification",
   "reminderSubtitle": "Get notified when event time comes",
   "saveEvent": "Save Event",
+  "editEvent": "Edit Event",
+  "updateEvent": "Update Event",
+  "deleteEvent": "Delete Event",
+  "deleteConfirmTitle": "Confirm Delete",
+  "deleteConfirmMessage": "Are you sure you want to delete event \"{title}\"?",
+  "@deleteConfirmMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "cancel": "Cancel",
+  "delete": "Delete",
+  "edit": "Edit",
+  "eventUpdated": "Event updated",
+  "eventDeleted": "Event deleted",
+  "undo": "Undo",
   "selectLanguage": "Select language",
   "vietnamese": "Vietnamese",
   "english": "English"

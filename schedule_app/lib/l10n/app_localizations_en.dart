@@ -73,6 +73,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get saveEvent => 'Save Event';
 
   @override
+  String get editEvent => 'Edit Event';
+
+  @override
+  String get updateEvent => 'Update Event';
+
+  @override
+  String get deleteEvent => 'Delete Event';
+
+  @override
+  String get deleteConfirmTitle => 'Confirm Delete';
+
+  @override
+  String deleteConfirmMessage(String title) {
+    return 'Are you sure you want to delete event \"$title\"?';
+  }
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get delete => 'Delete';
+
+  @override
+  String get edit => 'Edit';
+
+  @override
+  String get eventUpdated => 'Event updated';
+
+  @override
+  String get eventDeleted => 'Event deleted';
+
+  @override
+  String get undo => 'Undo';
+
+  @override
   String get selectLanguage => 'Select language';
 
   @override

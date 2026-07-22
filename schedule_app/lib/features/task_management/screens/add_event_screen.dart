@@ -6,10 +6,22 @@ import '../../../core/widgets/language_selector_button.dart';
 
 class AddEventScreen extends StatefulWidget {
   final DateTime? initialSelectedDate;
+  final String? initialTitle;
+  final String? initialNote;
+  final TimeOfDay? initialStartTime;
+  final TimeOfDay? initialEndTime;
+  final bool? initialIsReminded;
+  final bool isEditing;
 
   const AddEventScreen({
     super.key,
     this.initialSelectedDate,
+    this.initialTitle,
+    this.initialNote,
+    this.initialStartTime,
+    this.initialEndTime,
+    this.initialIsReminded,
+    this.isEditing = false,
   });
 
   @override
@@ -25,20 +37,22 @@ class _AddEventScreenState extends State<AddEventScreen> {
   late DateTime _selectedDate;
   late TimeOfDay _startTime;
   late TimeOfDay _endTime;
-  bool _isReminded = true;
+  late bool _isReminded;
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController();
-    _noteController = TextEditingController();
+    _titleController = TextEditingController(text: widget.initialTitle ?? '');
+    _noteController = TextEditingController(text: widget.initialNote ?? '');
 
     _selectedDate = widget.initialSelectedDate ?? DateTime.now();
-    _startTime = TimeOfDay.now();
-    _endTime = TimeOfDay(
-      hour: (_startTime.hour + 1) % 24,
-      minute: _startTime.minute,
-    );
+    _startTime = widget.initialStartTime ?? TimeOfDay.now();
+    _endTime = widget.initialEndTime ??
+        TimeOfDay(
+          hour: (_startTime.hour + 1) % 24,
+          minute: _startTime.minute,
+        );
+    _isReminded = widget.initialIsReminded ?? true;
   }
 
   @override
@@ -117,7 +131,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.createNewEvent),
+        title: Text(widget.isEditing ? l10n.editEvent : l10n.createNewEvent),
         centerTitle: true,
         actions: const [
           Padding(
@@ -273,7 +287,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               SizedBox(
                 width: double.infinity,
                 child: CustomButton(
-                  title: l10n.saveEvent,
+                  title: widget.isEditing ? l10n.updateEvent : l10n.saveEvent,
                   onPressed: _submitForm,
                 ),
               ),

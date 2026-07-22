@@ -73,6 +73,41 @@ class AppLocalizationsVi extends AppLocalizations {
   String get saveEvent => 'Lưu sự kiện';
 
   @override
+  String get editEvent => 'Chỉnh Sửa Sự Kiện';
+
+  @override
+  String get updateEvent => 'Cập nhật sự kiện';
+
+  @override
+  String get deleteEvent => 'Xóa sự kiện';
+
+  @override
+  String get deleteConfirmTitle => 'Xác nhận xóa';
+
+  @override
+  String deleteConfirmMessage(String title) {
+    return 'Bạn có chắc chắn muốn xóa sự kiện \"$title\" không?';
+  }
+
+  @override
+  String get cancel => 'Hủy';
+
+  @override
+  String get delete => 'Xóa';
+
+  @override
+  String get edit => 'Sửa';
+
+  @override
+  String get eventUpdated => 'Đã cập nhật sự kiện';
+
+  @override
+  String get eventDeleted => 'Đã xóa sự kiện';
+
+  @override
+  String get undo => 'Hoàn tác';
+
+  @override
   String get selectLanguage => 'Chọn ngôn ngữ';
 
   @override
