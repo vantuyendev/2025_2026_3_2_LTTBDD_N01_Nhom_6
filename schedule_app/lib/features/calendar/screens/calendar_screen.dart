@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 import '../widgets/event_card.dart';
+import '../../task_management/screens/add_event_screen.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -51,6 +52,46 @@ class _CalendarScreenState extends State<CalendarScreen> {
   void initState() {
     super.initState();
     _selectedDay = _focusedDay;
+  }
+
+  Future<void> _openAddEventScreen() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AddEventScreen(
+          initialSelectedDate: _selectedDay,
+        ),
+      ),
+    );
+
+    if (result != null && result is Map<String, dynamic>) {
+      final startDate = result['startDate'] as DateTime;
+      final endDate = result['endDate'] as DateTime;
+      final normalizedDay = DateTime.utc(
+        startDate.year,
+        startDate.month,
+        startDate.day,
+      );
+
+      final startTimeStr = DateFormat('HH:mm').format(startDate);
+      final endTimeStr = DateFormat('HH:mm').format(endDate);
+
+      setState(() {
+        final newEvent = {
+          'title': result['title'],
+          'timeRange': '$startTimeStr - $endTimeStr',
+          'note': result['note'],
+          'isDone': false,
+          'color': Colors.teal,
+        };
+
+        if (_demoEvents.containsKey(normalizedDay)) {
+          _demoEvents[normalizedDay]!.add(newEvent);
+        } else {
+          _demoEvents[normalizedDay] = [newEvent];
+        }
+      });
+    }
   }
 
   @override
@@ -202,6 +243,13 @@ class _CalendarScreenState extends State<CalendarScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _openAddEventScreen,
+        backgroundColor: theme.primaryColor,
+        tooltip: 'Thêm sự kiện',
+        child: const Icon(Icons.add, color: Colors.white),
+      ),
     );
   }
 }
+
