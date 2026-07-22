@@ -4,6 +4,11 @@
 > **Nhóm thực hiện:** Nhóm 06 - Lớp N01  
 > **Nền tảng phát triển:** Flutter & Dart (Cross-platform)
 
+| MSSV | Họ và tên | Vai trò | Trách nhiệm chính |
+  | :--- | :--- | :--- | :--- |
+  | **24100462** | **Tưởng Văn Tuyên** | Trưởng Nhóm | Form Thêm/Sửa/Xóa sự kiện (`AddEventScreen`), Cơ sở dữ liệu Offline (`Isar NoSQL`), Thông báo nhắc hẹn (`Local Notifications`), Giao diện `EventCard`, Trang Thông Tin Nhóm (`GroupInfoScreen`) |
+  | **24100350** | **Nguyễn Thành Vinh** | Thành Viên | Kiến trúc ứng dụng (`BLoC`/`Cubit`), Màn hình Lịch cá nhân (`TableCalendar`), Hỗ trợ Đa ngôn ngữ Việt-Anh (`i18n`), Hệ thống Theme & Reusable Widgets |
+
 ---
 
 ##  1. Giới thiệu dự án
