@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/theme/app_theme.dart';
 import 'core/widgets/custom_button.dart';
+import 'features/calendar/screens/calendar_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       title: 'Schedule App',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
-      home: const DemoScreen(),
+      home: const CalendarScreen(),
     );
   }
 }
