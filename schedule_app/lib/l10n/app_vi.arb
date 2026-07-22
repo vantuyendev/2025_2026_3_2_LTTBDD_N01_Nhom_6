@@ -1,0 +1,40 @@
+{
+  "@@locale": "vi",
+  "appTitle": "Lịch Cá Nhân",
+  "personalCalendar": "Lịch Cá Nhân",
+  "eventsForDate": "Sự kiện ngày {date}",
+  "@eventsForDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "eventList": "Danh sách sự kiện",
+  "taskCount": "{count} công việc",
+  "@taskCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noEventsForDay": "Không có sự kiện nào cho ngày này",
+  "addEvent": "Thêm sự kiện",
+  "createNewEvent": "Tạo Sự Kiện Mới",
+  "eventTitle": "Tiêu đề sự kiện *",
+  "eventTitleHint": "Nhập tiêu đề công việc/sự kiện...",
+  "eventTitleRequired": "Vui lòng nhập tiêu đề sự kiện",
+  "noteDescription": "Ghi chú / Mô tả",
+  "noteDescriptionHint": "Nhập mô tả chi tiết (nếu có)...",
+  "executionDate": "Ngày thực hiện",
+  "change": "Thay đổi",
+  "startTime": "Bắt đầu",
+  "endTime": "Kết thúc",
+  "reminderNotification": "Thông báo nhắc hẹn",
+  "reminderSubtitle": "Nhận thông báo khi đến giờ sự kiện",
+  "saveEvent": "Lưu sự kiện",
+  "selectLanguage": "Chọn ngôn ngữ",
+  "vietnamese": "Tiếng Việt",
+  "english": "English"
+}

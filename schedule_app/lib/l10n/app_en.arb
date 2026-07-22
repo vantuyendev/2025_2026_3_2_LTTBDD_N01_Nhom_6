@@ -1,0 +1,40 @@
+{
+  "@@locale": "en",
+  "appTitle": "Personal Calendar",
+  "personalCalendar": "Personal Calendar",
+  "eventsForDate": "Events for {date}",
+  "@eventsForDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "eventList": "Event List",
+  "taskCount": "{count} tasks",
+  "@taskCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "noEventsForDay": "No events for this day",
+  "addEvent": "Add event",
+  "createNewEvent": "Create New Event",
+  "eventTitle": "Event Title *",
+  "eventTitleHint": "Enter task/event title...",
+  "eventTitleRequired": "Please enter event title",
+  "noteDescription": "Note / Description",
+  "noteDescriptionHint": "Enter detailed description (if any)...",
+  "executionDate": "Date",
+  "change": "Change",
+  "startTime": "Start",
+  "endTime": "End",
+  "reminderNotification": "Reminder Notification",
+  "reminderSubtitle": "Get notified when event time comes",
+  "saveEvent": "Save Event",
+  "selectLanguage": "Select language",
+  "vietnamese": "Vietnamese",
+  "english": "English"
+}

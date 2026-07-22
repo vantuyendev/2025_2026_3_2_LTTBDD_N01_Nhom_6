@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import '../../../l10n/app_localizations.dart';
 import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/language_selector_button.dart';
 
 class AddEventScreen extends StatefulWidget {
   final DateTime? initialSelectedDate;
@@ -110,12 +112,19 @@ class _AddEventScreenState extends State<AddEventScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final dateFormat = DateFormat('dd/MM/yyyy');
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Tạo Sự Kiện Mới'),
+        title: Text(l10n.createNewEvent),
         centerTitle: true,
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: LanguageSelectorButton(),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -125,15 +134,15 @@ class _AddEventScreenState extends State<AddEventScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Tiêu đề sự kiện
-              const Text(
-                'Tiêu đề sự kiện *',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              Text(
+                l10n.eventTitle,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
               const SizedBox(height: 8.0),
               TextFormField(
                 controller: _titleController,
                 decoration: InputDecoration(
-                  hintText: 'Nhập tiêu đề công việc/sự kiện...',
+                  hintText: l10n.eventTitleHint,
                   prefixIcon: const Icon(Icons.title_rounded),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
@@ -141,7 +150,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 ),
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
-                    return 'Vui lòng nhập tiêu đề sự kiện';
+                    return l10n.eventTitleRequired;
                   }
                   return null;
                 },
@@ -149,16 +158,16 @@ class _AddEventScreenState extends State<AddEventScreen> {
               const SizedBox(height: 16.0),
 
               // Ghi chú / Mô tả
-              const Text(
-                'Ghi chú / Mô tả',
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+              Text(
+                l10n.noteDescription,
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
               const SizedBox(height: 8.0),
               TextFormField(
                 controller: _noteController,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  hintText: 'Nhập mô tả chi tiết (nếu có)...',
+                  hintText: l10n.noteDescriptionHint,
                   prefixIcon: const Icon(Icons.notes_rounded),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
@@ -176,7 +185,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                 ),
                 child: ListTile(
                   leading: Icon(Icons.calendar_today_rounded, color: theme.primaryColor),
-                  title: const Text('Ngày thực hiện'),
+                  title: Text(l10n.executionDate),
                   subtitle: Text(
                     dateFormat.format(_selectedDate),
                     style: TextStyle(
@@ -186,7 +195,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                   ),
                   trailing: TextButton(
                     onPressed: _pickDate,
-                    child: const Text('Thay đổi'),
+                    child: Text(l10n.change),
                   ),
                 ),
               ),
@@ -204,7 +213,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       ),
                       child: ListTile(
                         dense: true,
-                        title: const Text('Bắt đầu', style: TextStyle(fontSize: 12)),
+                        title: Text(l10n.startTime, style: const TextStyle(fontSize: 12)),
                         subtitle: Text(
                           _startTime.format(context),
                           style: const TextStyle(
@@ -226,7 +235,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
                       ),
                       child: ListTile(
                         dense: true,
-                        title: const Text('Kết thúc', style: TextStyle(fontSize: 12)),
+                        title: Text(l10n.endTime, style: const TextStyle(fontSize: 12)),
                         subtitle: Text(
                           _endTime.format(context),
                           style: const TextStyle(
@@ -246,11 +255,11 @@ class _AddEventScreenState extends State<AddEventScreen> {
               SwitchListTile(
                 contentPadding: EdgeInsets.zero,
                 value: _isReminded,
-                title: const Text(
-                  'Thông báo nhắc hẹn',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                title: Text(
+                  l10n.reminderNotification,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
-                subtitle: const Text('Nhận thông báo khi đến giờ sự kiện'),
+                subtitle: Text(l10n.reminderSubtitle),
                 activeThumbColor: theme.primaryColor,
                 onChanged: (bool value) {
                   setState(() {
@@ -264,7 +273,7 @@ class _AddEventScreenState extends State<AddEventScreen> {
               SizedBox(
                 width: double.infinity,
                 child: CustomButton(
-                  title: 'Lưu sự kiện',
+                  title: l10n.saveEvent,
                   onPressed: _submitForm,
                 ),
               ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import '../../../l10n/app_localizations.dart';
+import '../../../core/widgets/language_selector_button.dart';
 import '../widgets/event_card.dart';
 import '../../task_management/screens/add_event_screen.dart';
 
@@ -97,13 +99,23 @@ class _CalendarScreenState extends State<CalendarScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
+    final currentLocale = Localizations.localeOf(context);
+    final tableCalendarLocale = currentLocale.languageCode == 'vi' ? 'vi_VN' : 'en_US';
+
     final selectedDayEvents =
         _selectedDay != null ? _getEventsForDay(_selectedDay!) : [];
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Lịch Cá Nhân'),
+        title: Text(l10n.personalCalendar),
         centerTitle: true,
+        actions: const [
+          Padding(
+            padding: EdgeInsets.only(right: 8.0),
+            child: LanguageSelectorButton(),
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -115,6 +127,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: TableCalendar(
+              locale: tableCalendarLocale,
               firstDay: DateTime.utc(2020, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),
               focusedDay: _focusedDay,
@@ -185,8 +198,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
               children: [
                 Text(
                   _selectedDay != null
-                      ? 'Sự kiện ngày ${DateFormat('dd/MM/yyyy').format(_selectedDay!)}'
-                      : 'Danh sách sự kiện',
+                      ? l10n.eventsForDate(DateFormat('dd/MM/yyyy').format(_selectedDay!))
+                      : l10n.eventList,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -194,7 +207,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
                 Chip(
                   label: Text(
-                    '${selectedDayEvents.length} công việc',
+                    l10n.taskCount(selectedDayEvents.length),
                     style: const TextStyle(fontSize: 12, color: Colors.white),
                   ),
                   backgroundColor: theme.primaryColor,
@@ -217,7 +230,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                         ),
                         const SizedBox(height: 8.0),
                         Text(
-                          'Không có sự kiện nào cho ngày này',
+                          l10n.noEventsForDay,
                           style: TextStyle(
                             color: Colors.grey.shade600,
                             fontSize: 14,
@@ -246,10 +259,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
       floatingActionButton: FloatingActionButton(
         onPressed: _openAddEventScreen,
         backgroundColor: theme.primaryColor,
-        tooltip: 'Thêm sự kiện',
+        tooltip: l10n.addEvent,
         child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }
 }
-
