@@ -58,4 +58,8 @@ app.*.map.json
 **/generated_plugin_registrant.*
 **/generated_plugins.cmake
 
+# Gradle build directories
+.gradle/
+**/android/.gradle/
+**/android/build/
 
