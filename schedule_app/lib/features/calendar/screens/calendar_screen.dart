@@ -6,6 +6,7 @@ import '../../../core/widgets/language_selector_button.dart';
 import '../widgets/event_card.dart';
 import '../../task_management/screens/add_event_screen.dart';
 import '../../group_info/screens/group_info_screen.dart';
+import '../../notifications/notification_service.dart';
 
 class CalendarScreen extends StatefulWidget {
   const CalendarScreen({super.key});
@@ -95,26 +96,39 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
       final startTimeStr = DateFormat('HH:mm').format(startDate);
       final endTimeStr = DateFormat('HH:mm').format(endDate);
+      final isReminded = result['isReminded'] ?? true;
+      final notificationId = DateTime.now().millisecondsSinceEpoch % 100000;
+
+      final newEvent = {
+        'id': notificationId.toString(),
+        'title': result['title'],
+        'timeRange': '$startTimeStr - $endTimeStr',
+        'note': result['note'],
+        'isDone': false,
+        'color': Colors.teal,
+        'startDate': startDate,
+        'endDate': endDate,
+        'isReminded': isReminded,
+      };
 
       setState(() {
-        final newEvent = {
-          'id': DateTime.now().millisecondsSinceEpoch.toString(),
-          'title': result['title'],
-          'timeRange': '$startTimeStr - $endTimeStr',
-          'note': result['note'],
-          'isDone': false,
-          'color': Colors.teal,
-          'startDate': startDate,
-          'endDate': endDate,
-          'isReminded': result['isReminded'] ?? true,
-        };
-
         if (_demoEvents.containsKey(normalizedDay)) {
           _demoEvents[normalizedDay]!.add(newEvent);
         } else {
           _demoEvents[normalizedDay] = [newEvent];
         }
       });
+
+      // Lập lịch thông báo nếu người dùng bật nhắc hẹn
+      if (isReminded) {
+        final noteText = (result['note'] as String?) ?? '';
+        await NotificationService.instance.scheduleNotification(
+          id: notificationId,
+          title: result['title'] as String,
+          body: noteText.isNotEmpty ? noteText : 'Đến giờ lịch hẹn!',
+          scheduledTime: startDate,
+        );
+      }
     }
   }
 
@@ -153,6 +167,8 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
       final startTimeStr = DateFormat('HH:mm').format(newStartDate);
       final endTimeStr = DateFormat('HH:mm').format(newEndDate);
+      final isReminded = result['isReminded'] ?? true;
+      final notificationId = (int.tryParse(event['id']?.toString() ?? '') ?? DateTime.now().millisecondsSinceEpoch) % 100000;
 
       final updatedEvent = {
         ...event,
@@ -161,7 +177,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         'note': result['note'],
         'startDate': newStartDate,
         'endDate': newEndDate,
-        'isReminded': result['isReminded'] ?? true,
+        'isReminded': isReminded,
       };
 
       setState(() {
@@ -180,6 +196,19 @@ class _CalendarScreenState extends State<CalendarScreen> {
           _focusedDay = newStartDate;
         }
       });
+
+      // Cập nhật hoặc hủy thông báo
+      if (isReminded) {
+        final noteText = (result['note'] as String?) ?? '';
+        await NotificationService.instance.scheduleNotification(
+          id: notificationId,
+          title: result['title'] as String,
+          body: noteText.isNotEmpty ? noteText : 'Đến giờ lịch hẹn!',
+          scheduledTime: newStartDate,
+        );
+      } else {
+        await NotificationService.instance.cancelNotification(notificationId);
+      }
 
       if (mounted) {
         final l10n = AppLocalizations.of(context)!;
@@ -200,6 +229,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   ) async {
     final l10n = AppLocalizations.of(context)!;
     final normalizedDay = DateTime.utc(currentDay.year, currentDay.month, currentDay.day);
+    final notificationId = (int.tryParse(event['id']?.toString() ?? '') ?? 0) % 100000;
 
     final confirm = await showDialog<bool>(
       context: context,
@@ -229,6 +259,9 @@ class _CalendarScreenState extends State<CalendarScreen> {
         _demoEvents[normalizedDay]!.removeAt(index);
       });
 
+      // Hủy thông báo khi xóa sự kiện
+      await NotificationService.instance.cancelNotification(notificationId);
+
       if (mounted) {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
@@ -237,7 +270,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             duration: const Duration(seconds: 4),
             action: SnackBarAction(
               label: l10n.undo,
-              onPressed: () {
+              onPressed: () async {
                 setState(() {
                   if (_demoEvents.containsKey(normalizedDay)) {
                     _demoEvents[normalizedDay]!.insert(index, event);
@@ -245,6 +278,16 @@ class _CalendarScreenState extends State<CalendarScreen> {
                     _demoEvents[normalizedDay] = [event];
                   }
                 });
+
+                if (event['isReminded'] == true && event['startDate'] is DateTime) {
+                  final noteText = (event['note'] as String?) ?? '';
+                  await NotificationService.instance.scheduleNotification(
+                    id: notificationId,
+                    title: event['title'] as String? ?? '',
+                    body: noteText.isNotEmpty ? noteText : 'Đến giờ lịch hẹn!',
+                    scheduledTime: event['startDate'] as DateTime,
+                  );
+                }
               },
             ),
           ),

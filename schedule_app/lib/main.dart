@@ -5,9 +5,11 @@ import 'l10n/app_localizations.dart';
 import 'core/localization/locale_cubit.dart';
 import 'core/theme/app_theme.dart';
 import 'features/calendar/screens/calendar_screen.dart';
+import 'features/notifications/notification_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.instance.init();
   runApp(const MyApp());
 }
 
